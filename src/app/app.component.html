@@ -1,0 +1,50 @@
+<div class="container py-4">
+  <h1 class="text-center">Reactive Forms</h1>
+
+  <form [formGroup]="myReactiveForm" (ngSubmit)="onSubmit()">
+    <div formGroupName="userDetail">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" class="form-control" formControlName="username" autocomplete="off" placeholder="Enter username">
+        <small class="text-danger" *ngIf="!myReactiveForm.get('userDetail.username')?.valid && myReactiveForm.get('userDetail.username')?.touched">
+          <span *ngIf="myReactiveForm.get('userDetail.username')?.errors?.required">Username is required</span>
+          <span *ngIf="myReactiveForm.get('userDetail.username')?.errors?.nameIsNotAllowed"><b>{{myReactiveForm.get('userDetail.username')?.value}}</b> username is not valid</span>
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" class="form-control" formControlName="email" autocomplete="off" placeholder="Enter email">
+        <small class="text-danger" *ngIf="!myReactiveForm.get('userDetail.email')?.valid && myReactiveForm.get('userDetail.email')?.touched">Please enter valid email</small>
+        <small class="text-danger d-block" *ngIf="!myReactiveForm.get('userDetail.email')?.valid && myReactiveForm.get('userDetail.email')?.touched">
+          <span *ngIf="myReactiveForm.get('userDetail.email')?.errors?.emailIsNotAllowed"><b>{{myReactiveForm.get('userDetail.email')?.value}}</b> email is not valid</span>
+        </small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="course">Course</label>
+      <select id="course" class="form-control" formControlName="course">
+        <option value="Html">Html</option>
+        <option value="CSS">CSS</option>
+        <option value="Javascript">Javascript</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <div class="custom-control custom-radio" *ngFor="let gender of genders">
+        <input type="radio" id="{{gender.id}}" formControlName="gender" value="{{gender.genderType}}" class="custom-control-input">
+        <label class="custom-control-label" for="{{gender.id}}">{{gender.genderType}}</label>
+      </div>
+    </div>
+    <div class="form-group" formArrayName="skills">
+      <label>Skills</label>
+      <ng-container *ngFor="let skill of skillsList.controls; let i = index">
+        <input type="text" class="form-control mt-2" autocomplete="off" formControlName="{{i}}" placeholder="Enter Skills">
+      </ng-container>
+      <button class="btn btn-sm btn-light mt-3 btn-add" (click)="onAddSkills()"><i>+</i>Add Skills</button>
+    </div>
+    <button type="submit" class="btn btn-success mt-2">Submit</button>
+    <button type="button" class="btn btn-danger mt-2" style="margin-left: 10px;" (click)="resetForm()">Reset</button>
+  </form>
+</div>
+
+<!-- https://www.youtube.com/watch?v=MagByMMoKNk -->
+<!-- https://www.youtube.com/watch?v=0sGMNeK8o78&list=RDCMUCiFh_rmtVAGTc-oo__7IwCQ&index=2 -->
